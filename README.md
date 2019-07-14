@@ -1,5 +1,13 @@
 # fork:
-Change timeZone to [NSTimeZone defaultTimeZone]
+
+## Changes:
+* timeZone to [NSTimeZone defaultTimeZone]
+
+## Usage
+```
+pod 'FSCalendar', :git => 'https://github.com/DeanFs/FSCalendar.git'
+```
+	
 
 ![logo](https://cloud.githubusercontent.com/assets/5186464/16540124/efc51f72-408b-11e6-934a-4e750b8b55bb.png)
 <br/><br/>
