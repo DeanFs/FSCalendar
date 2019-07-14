@@ -1,7 +1,7 @@
 # fork:
 
 ## Changes:
-* timeZone to [NSTimeZone defaultTimeZone]
+*Set timeZone with [NSTimeZone defaultTimeZone]
 
 ## Usage
 ```
