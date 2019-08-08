@@ -1534,9 +1534,13 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
         _needsRequestingBoundingDates = NO;
         self.formatter.dateFormat = @"yyyy-MM-dd";
         NSDate *newMin = [self.dataSourceProxy minimumDateForCalendar:self]?:[self.formatter dateFromString:@"1970-01-01"];
-        newMin = [self.gregorian dateBySettingHour:0 minute:0 second:0 ofDate:newMin options:0];
+        NSInteger unit = NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay;
+        NSDateComponents *cmp = [self.gregorian components:unit fromDate:newMin];
+        newMin = [self.gregorian dateFromComponents:cmp];
+        
         NSDate *newMax = [self.dataSourceProxy maximumDateForCalendar:self]?:[self.formatter dateFromString:@"2099-12-31"];
-        newMax = [self.gregorian dateBySettingHour:0 minute:0 second:0 ofDate:newMax options:0];
+        cmp = [self.gregorian components:unit fromDate:newMax];
+        newMax = [self.gregorian dateFromComponents:cmp];
         
         NSAssert([self.gregorian compareDate:newMin toDate:newMax toUnitGranularity:NSCalendarUnitDay] != NSOrderedDescending, @"The minimum date of calendar should be earlier than the maximum.");
         
