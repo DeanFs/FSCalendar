@@ -19,6 +19,9 @@
 #import "FSCalendarCalculator.h"
 #import "FSCalendarDelegationFactory.h"
 
+#include <libkern/OSAtomic.h>
+#include <execinfo.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 static inline void FSCalendarAssertDateInBounds(NSDate *date, NSCalendar *calendar, NSDate *minimumDate, NSDate *maximumDate) {
@@ -1552,9 +1555,32 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 }
 
 - (NSDate *)onlyDateFromDate:(NSDate *)date {
+    if ([self isNilDate:date]) {
+        return nil;
+    }
     NSInteger unit = NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay;
     NSDateComponents *cmp = [self.gregorian components:unit fromDate:date];
     return [self.gregorian dateFromComponents:cmp];
+}
+
+- (BOOL)isNilDate:(NSDate *)date {
+    if (!date) {
+#if DEBUG
+        void* callstack[128];
+        int frames = backtrace(callstack, 128);
+        char **strs = backtrace_symbols(callstack, frames);
+        int i;
+        NSMutableArray *backtrace = [NSMutableArray arrayWithCapacity:frames];
+        for (i = 0;i < 4;i++){
+            [backtrace addObject:[NSString stringWithUTF8String:strs[i]]];
+        }
+        free(strs);
+        NSLog(@"FSCalendar: date为空");
+        NSLog(@"堆栈信息：\n%@", backtrace);
+#endif
+        return YES;
+    }
+    return NO;
 }
 
 - (void)configureAppearance
