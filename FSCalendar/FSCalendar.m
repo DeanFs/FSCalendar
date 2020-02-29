@@ -18,6 +18,7 @@
 #import "FSCalendarTransitionCoordinator.h"
 #import "FSCalendarCalculator.h"
 #import "FSCalendarDelegationFactory.h"
+#import <DRCategories/NSDate+DRExtension.h>
 
 #include <libkern/OSAtomic.h>
 #include <execinfo.h>
@@ -157,7 +158,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     _formatter.dateFormat = @"yyyy-MM-dd";
     _locale = [NSLocale currentLocale];
     _timeZone = [NSTimeZone defaultTimeZone];
-    _firstWeekday = 1;
+    _firstWeekday = [NSDate weekFirstday];
     [self invalidateDateTools];
     
     _today = [self onlyDateFromDate:[NSDate date]];
@@ -1628,3 +1629,49 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 @end
 
 
+@implementation FSCalendar (DRExtension)
+
+- (void)setupWithTarget:(id<FSCalendarDataSource, FSCalendarDelegate>)target
+          weekdayHeight:(CGFloat)weekdayHeight
+            weekdayFont:(UIFont *)weekdayFont
+       weekdayTextColor:(UIColor *)weekdayTextColor
+           registerCell:(Class)cellClass {
+    self.dataSource = target;
+    self.delegate = target;
+    self.today = [NSDate date].midnight;
+    self.locale = [NSLocale localeWithLocaleIdentifier:@"zh-CN"];
+    // 不显示年月标题
+    self.headerHeight = 0;
+    // 以下两项设置week显示 一，二。。。。日
+    self.appearance.caseOptions = FSCalendarCaseOptionsWeekdayUsesSingleUpperCase;
+    // 只显示当前月的日期，在限定大小内自动调整cell高度
+    self.placeholderType = FSCalendarPlaceholderTypeNone;
+    
+    self.weekdayHeight = weekdayHeight;
+    self.appearance.weekdayFont = weekdayFont;
+    self.appearance.weekdayTextColor = weekdayTextColor;
+    self.appearance.todayColor = [UIColor clearColor];
+    
+    [self registerClass:cellClass forCellReuseIdentifier:NSStringFromClass(cellClass)];
+}
+
+- (void)setupDayTitleFont:(UIFont *)dayTitleFont
+            dayTitleColor:(UIColor *)dayTitleColor
+   dayTitleSelectionColor:(UIColor *)dayTitleSelectionColor
+        daySelectionColor:(UIColor *)daySelectionColor {
+    if (dayTitleFont) {
+        self.appearance.titleFont = dayTitleFont;
+    }
+    if (dayTitleColor) {
+        self.appearance.titleTodayColor = dayTitleColor;
+        self.appearance.titleDefaultColor = dayTitleColor;
+    }
+    if (dayTitleSelectionColor) {
+        self.appearance.titleSelectionColor = dayTitleSelectionColor;
+    }
+    if (daySelectionColor) {
+        self.appearance.selectionColor = daySelectionColor;
+    }
+}
+
+@end

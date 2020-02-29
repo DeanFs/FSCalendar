@@ -1,0 +1,51 @@
+PODS:
+  - DRCategories (0.1.26):
+    - DRCategories/Foundation (= 0.1.26)
+    - DRCategories/UIKit (= 0.1.26)
+    - DRMacroDefines
+    - DRSandboxManager
+    - pop
+    - RegExCategories
+  - DRCategories/Foundation (0.1.26):
+    - DRMacroDefines
+    - DRSandboxManager
+    - pop
+    - RegExCategories
+  - DRCategories/UIKit (0.1.26):
+    - DRMacroDefines
+    - DRSandboxManager
+    - pop
+    - RegExCategories
+  - DRMacroDefines (0.1.2)
+  - DRSandboxManager (0.1.7)
+  - FSCalendar (2.8.0):
+    - DRCategories
+  - pop (1.0.12)
+  - RegExCategories (1.0)
+
+DEPENDENCIES:
+  - FSCalendar (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - DRCategories
+    - DRMacroDefines
+    - DRSandboxManager
+    - pop
+    - RegExCategories
+
+EXTERNAL SOURCES:
+  FSCalendar:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  DRCategories: 5ce7e79748e3cbfd8813f34431c36f44eed0fd09
+  DRMacroDefines: 58aa271bc1c4170fa09f4f33dcad18fc4f21a57e
+  DRSandboxManager: d262357fc961419b20794e756117ace8bac260ee
+  FSCalendar: 90f91c06645007bf6eb6f06defc201a863bad07c
+  pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
+  RegExCategories: e68befacacd5bda853c88f70ec745cb2d0cfb89c
+
+PODFILE CHECKSUM: a4c573578df50d8702b78bcc96c2b533c1432a39
+
+COCOAPODS: 1.8.4

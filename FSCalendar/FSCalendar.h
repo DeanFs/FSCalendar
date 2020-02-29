@@ -561,4 +561,37 @@ IB_DESIGNABLE
 
 @end
 
+
+@interface FSCalendar (DRExtension)
+
+/**
+ 初始化日历
+ 
+ @param target 设置代理
+ @param weekdayHeight 周标题高度
+ @param weekdayFont 周标题字体
+ @param weekdayTextColor 周标题字体颜色
+ @param cellClass 注册日期显示cell
+ */
+- (void)setupWithTarget:(id<FSCalendarDataSource, FSCalendarDelegate>)target
+          weekdayHeight:(CGFloat)weekdayHeight
+            weekdayFont:(UIFont *)weekdayFont
+       weekdayTextColor:(UIColor *)weekdayTextColor
+           registerCell:(Class)cellClass;
+
+/**
+ 没有自定义UI时，使用FSCalenderCell自己的label等的设置方法
+ 
+ @param dayTitleFont 日期字体
+ @param dayTitleColor 日期字颜色
+ @param dayTitleSelectionColor 日期选中时的字体颜色
+ @param daySelectionColor 日期选中的背景色
+ */
+- (void)setupDayTitleFont:(UIFont *)dayTitleFont
+            dayTitleColor:(UIColor *)dayTitleColor
+   dayTitleSelectionColor:(UIColor *)dayTitleSelectionColor
+        daySelectionColor:(UIColor *)daySelectionColor;
+
+@end
+
 NS_ASSUME_NONNULL_END
